@@ -427,7 +427,7 @@ describe('pipeline', () => {
     const lambdaFun = new lambda.Function(stack, 'Function', {
       code: new lambda.InlineCode('bla'),
       handler: 'index.handler',
-      runtime: lambda.Runtime.NODEJS_14_X,
+      runtime: lambda.Runtime.NODEJS_LATEST,
     });
 
     const pipeline = new codepipeline.Pipeline(stack, 'Pipeline');
@@ -927,6 +927,7 @@ describe('pipeline', () => {
               'Action': [
                 's3:GetObject*',
                 's3:GetBucket*',
+                's3:HeadObject',
                 's3:List*',
               ],
               'Effect': 'Allow',

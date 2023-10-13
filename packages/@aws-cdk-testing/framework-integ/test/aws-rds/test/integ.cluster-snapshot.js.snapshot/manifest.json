@@ -1,5 +1,5 @@
 {
-  "version": "32.0.0",
+  "version": "34.0.0",
   "artifacts": {
     "cdk-integ-cluster-snapshot.assets": {
       "type": "cdk:asset-manifest",
@@ -17,7 +17,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/56504e385ba4135ae1a86cc8ac53511c337a21a475f4de214c500d8f3c65581c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/23b0d2a14d3e7bc3dcf7cc5292fe80fa29dacb0aea32636c17ca9fce11d8aba9.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -333,18 +333,6 @@
             "data": "FromSnapshotSecurityGroupfromcdkintegclustersnapshotFromSnapshotRotationSingleUserSecurityGroup8B231219IndirectPort7C6DDFDF"
           }
         ],
-        "/cdk-integ-cluster-snapshot/FromSnapshot/Secret/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "FromSnapshotSecret9100F61C"
-          }
-        ],
-        "/cdk-integ-cluster-snapshot/FromSnapshot/Secret/Attachment/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "FromSnapshotSecretAttachmentB62DA1C6"
-          }
-        ],
         "/cdk-integ-cluster-snapshot/FromSnapshot/SnapshotSecret/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -416,9 +404,74 @@
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
+        ],
+        "FromSnapshotSecret9100F61C": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FromSnapshotSecret9100F61C",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
+        ],
+        "FromSnapshotSecretAttachmentB62DA1C6": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FromSnapshotSecretAttachmentB62DA1C6",
+            "trace": [
+              "!!DESTRUCTIVE_CHANGES: WILL_DESTROY"
+            ]
+          }
         ]
       },
       "displayName": "cdk-integ-cluster-snapshot"
+    },
+    "ClusterSnapshotIntegDefaultTestDeployAssert647D4685.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ClusterSnapshotIntegDefaultTestDeployAssert647D4685.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ClusterSnapshotIntegDefaultTestDeployAssert647D4685": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ClusterSnapshotIntegDefaultTestDeployAssert647D4685.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ClusterSnapshotIntegDefaultTestDeployAssert647D4685.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ClusterSnapshotIntegDefaultTestDeployAssert647D4685.assets"
+      ],
+      "metadata": {
+        "/ClusterSnapshotInteg/DefaultTest/DeployAssert/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ClusterSnapshotInteg/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ClusterSnapshotInteg/DefaultTest/DeployAssert"
     },
     "Tree": {
       "type": "cdk:tree",

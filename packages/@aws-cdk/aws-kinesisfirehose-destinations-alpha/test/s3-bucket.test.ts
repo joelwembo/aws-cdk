@@ -85,6 +85,7 @@ describe('S3 destination', () => {
             Action: [
               's3:GetObject*',
               's3:GetBucket*',
+              's3:HeadObject',
               's3:List*',
               's3:DeleteObject*',
               's3:PutObject',
@@ -121,6 +122,7 @@ describe('S3 destination', () => {
             Action: [
               's3:GetObject*',
               's3:GetBucket*',
+              's3:HeadObject',
               's3:List*',
               's3:DeleteObject*',
               's3:PutObject',
@@ -240,7 +242,7 @@ describe('S3 destination', () => {
 
     beforeEach(() => {
       lambdaFunction = new lambda.Function(stack, 'DataProcessorFunction', {
-        runtime: lambda.Runtime.NODEJS_14_X,
+        runtime: lambda.Runtime.NODEJS_LATEST,
         code: lambda.Code.fromInline('foo'),
         handler: 'bar',
       });

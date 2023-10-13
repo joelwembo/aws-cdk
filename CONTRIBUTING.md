@@ -108,6 +108,8 @@ Note: `lerna` uses a local cache by default. If your build fails, you can fix
 the issue and run the command again and it will not rerun any previously
 successful steps.
 
+Note: If you encounter `ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory`, please try running the command with increased memory by using `export NODE_OPTIONS="--max-old-space-size=8192"`.
+
 At this point, you can run build and test the `aws-cdk-lib` module by running
 
 ```console
@@ -350,8 +352,8 @@ assertions against the deployed infrastructure.
 ```
 
 Examples:
-* [integ.destinations.ts](https://github.com/aws/aws-cdk/blob/master/packages/%40aws-cdk/aws-lambda-destinations/test/integ.destinations.ts#L7)
-* [integ.put-events.ts](https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk/aws-stepfunctions-tasks/test/eventbridge/integ.put-events.ts)
+* [integ.destinations.ts](https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk-testing/framework-integ/test/aws-lambda-destinations/test/integ.destinations.ts#L7)
+* [integ.put-events.ts](https://github.com/aws/aws-cdk/blob/main/packages/%40aws-cdk-testing/framework-integ/test/aws-stepfunctions-tasks/test/eventbridge/integ.put-events.ts)
 
 **What if you cannot run integration tests**
 
@@ -485,7 +487,17 @@ CDK integration tests.
 
 * Create a commit with your changes and push them to a
   [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo).
-  > Note: CDK core members can push to a branch on the AWS CDK repo (naming convention: `<user>/<feature-bug-name>`).
+  > [!IMPORTANT]
+  > We will not be able to accept your contribution if you do not allow commits to your PR branch, as it introduces
+  > friction in our review process and breaks our automation that syncs with the main branch. In these scenarios, we will close
+  > your pull request and ask that you recreate it with the necessary permissions.
+  > This means that you must contribute from a fork within your personal account (as opposed to an organization owned account) and also develop
+  > your contribution on a branch other than `main`. See
+  > [Allowing changes to a pull request branch created from a fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/allowing-changes-to-a-pull-request-branch-created-from-a-fork)
+  > for more information.
+  
+  > [!NOTE]
+  > CDK core members can push to a branch on the AWS CDK repo (naming convention: `<user>/<feature-bug-name>`).
 
 * Create a [pull request on
   Github](https://docs.github.com/en/github/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork).
@@ -591,9 +603,10 @@ dependency.**
 
 #### Adding new unconventional dependencies
 
-> :warning: Do not add these. If there is a tool that you want to use in your
-CDK constructs, see [Adding construct runtime
-dependencies](#Adding-construct-runtime-dependencies).
+> [!WARNING]
+> Do not add these. If there is a tool that you want to use in your
+> CDK constructs, see [Adding construct runtime
+> dependencies](#Adding-construct-runtime-dependencies).
 
 **For the aws-cdk an unconventional dependency is defined as any dependency that is not managed via the module's
 `package.json` file.**
@@ -1137,6 +1150,7 @@ Most build issues can be solved by doing a full clean rebuild:
 
 ```shell
 $ git clean -fqdx .
+$ yarn install
 $ yarn build
 ```
 

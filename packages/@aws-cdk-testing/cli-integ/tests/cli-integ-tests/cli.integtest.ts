@@ -1,7 +1,7 @@
 import { promises as fs, existsSync } from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { integTest, cloneDirectory, shell, withDefaultFixture, retry, sleep, randomInteger, withSamIntegrationFixture, RESOURCES_DIR } from '../../lib';
+import { integTest, cloneDirectory, shell, withDefaultFixture, retry, sleep, randomInteger, withSamIntegrationFixture, RESOURCES_DIR, withCDKMigrateFixture } from '../../lib';
 
 jest.setTimeout(2 * 60 * 60_000); // Includes the time to acquire locks, worst-case single-threaded runtime
 
@@ -571,6 +571,23 @@ integTest('deploy with role', withDefaultFixture(async (fixture) => {
   }
 }));
 
+// TODO add go back in when template synths properly
+['typescript', 'python', 'csharp', 'java'].forEach(language => {
+  integTest(`cdk migrate ${language}`, withCDKMigrateFixture(language, async (fixture) => {
+    if (language === 'python') {
+      await fixture.shell(['pip', 'install', '-r', 'requirements.txt']);
+    }
+
+    const stackArn = await fixture.cdkDeploy(fixture.stackNamePrefix, { neverRequireApproval: true, verbose: true, captureStderr: false }, true);
+    const response = await fixture.aws.cloudFormation('describeStacks', {
+      StackName: stackArn,
+    });
+
+    expect(response.Stacks?.[0].StackStatus).toEqual('CREATE_COMPLETE');
+    await fixture.cdkDestroy(fixture.stackNamePrefix);
+  }));
+});
+
 integTest('cdk diff', withDefaultFixture(async (fixture) => {
   const diff1 = await fixture.cdk(['diff', fixture.fullStackName('test-1')]);
   expect(diff1).toContain('AWS::SNS::Topic');
@@ -649,6 +666,18 @@ integTest('cdk diff --fail with multiple stack exits with if any of the stacks c
 integTest('cdk diff --security-only --fail exits when security changes are present', withDefaultFixture(async (fixture) => {
   const stackName = 'iam-test';
   await expect(fixture.cdk(['diff', '--security-only', '--fail', fixture.fullStackName(stackName)])).rejects.toThrow('exited with error');
+}));
+
+integTest('cdk diff --quiet does not print \'There were no differences\' message for stacks which have no differences', withDefaultFixture(async (fixture) => {
+  // GIVEN
+  await fixture.cdkDeploy('test-1');
+
+  // WHEN
+  const diff = await fixture.cdk(['diff', '--quiet', fixture.fullStackName('test-1')]);
+
+  // THEN
+  expect(diff).not.toContain('Stack test-1');
+  expect(diff).not.toContain('There were no differences');
 }));
 
 integTest('deploy stack with docker asset', withDefaultFixture(async (fixture) => {

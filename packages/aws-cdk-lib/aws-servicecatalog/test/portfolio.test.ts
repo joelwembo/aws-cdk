@@ -231,7 +231,7 @@ describe('Portfolio', () => {
         PolicyDocument: {
           Statement: [{
             Effect: 'Allow',
-            Action: ['s3:GetObject*', 's3:GetBucket*', 's3:List*'],
+            Action: ['s3:GetObject*', 's3:GetBucket*', 's3:HeadObject', 's3:List*'],
             Principal: {
               AWS: {
                 'Fn::Join': [
@@ -249,7 +249,7 @@ describe('Portfolio', () => {
           }],
         },
       });
-    }),
+    });
 
     test('portfolio share with share tagOptions', () => {
       const shareAccountId = '012345678901';

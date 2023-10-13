@@ -140,6 +140,7 @@ describe('', () => {
               'Action': [
                 's3:GetObject*',
                 's3:GetBucket*',
+                's3:HeadObject',
                 's3:List*',
               ],
               'Effect': 'Allow',
@@ -224,6 +225,7 @@ describe('', () => {
               'Action': [
                 's3:GetObject*',
                 's3:GetBucket*',
+                's3:HeadObject',
                 's3:List*',
               ],
               'Effect': 'Allow',
@@ -357,7 +359,7 @@ function stackIncludingLambdaInvokeCodePipeline(props: HelperProps, app?: App) {
             lambda: new lambda.Function(stack, 'Lambda', {
               code: lambda.Code.fromCfnParameters(),
               handler: 'index.handler',
-              runtime: lambda.Runtime.NODEJS_14_X,
+              runtime: lambda.Runtime.NODEJS_LATEST,
             }),
             userParameters: props.userParams,
             userParametersString: props.userParamsString,

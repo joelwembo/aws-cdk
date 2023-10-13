@@ -21,7 +21,7 @@ async function rebootClusterIfRequired(clusterId: string, parameterGroupName: st
       try {
         await redshift.rebootCluster({ ClusterIdentifier: clusterId });
       } catch (err: any) {
-        if (err.code === 'InvalidClusterState') {
+        if (err.name === 'InvalidClusterStateFault') {
           return await executeActionForStatus(status, 30000);
         } else {
           throw err;
